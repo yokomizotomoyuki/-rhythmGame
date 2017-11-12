@@ -24,16 +24,9 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 
 		//アロー作成
-		orderList.Add(1);
-		orderList.Add(2);
-		orderList.Add(3);
-		orderList.Add(2);
-		orderList.Add(2);
-		orderList.Add(3);
-		orderList.Add(1);
-		orderList.Add(1);
-		orderList.Add(3);
-		orderList.Add(1);
+		for (int i = 0; i <= 10; i++) {
+			orderList.Add (UnityEngine.Random.Range (1, 4));
+		}
 
 		// 現在時刻
 		lastCreateEnemy = DateTime.UtcNow;
