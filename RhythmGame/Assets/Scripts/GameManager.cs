@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
@@ -15,43 +14,64 @@ public class GameManager : MonoBehaviour {
 	private const int MAX_COUNT=10;
 	private int count = 0;
 	public int nowEnemyCount = 0;
+	public Boolean startFlg = false;
+	public Boolean aBottonFlg = true;
 
 	private List <int> orderList = new List<int>();
 	private DateTime lastCreateEnemy;
-	private const int REPOP_TIME = 500;
+	private const int REPOP_TIME = 400;
 
 	// Use this for initialization
 	void Start () {
 
-		//アロー作成
-		for (int i = 0; i <= 10; i++) {
-			orderList.Add (UnityEngine.Random.Range (1, 4));
+		if (startFlg  && aBottonFlg) {
+			aBottonFlg = false;
+			//アロー作成
+			orderList.Clear();
+			count = 0;
+			nowEnemyCount = 0;
+
+			for (int i = 0; i <= 10; i++) {
+				orderList.Add (UnityEngine.Random.Range (1, 4));
+				//orderList.Add (UnityEngine.Random.Range (1, 2));
+			}
+
+			// 現在時刻
+			lastCreateEnemy = DateTime.UtcNow;
+
+			// ノーツ表示
+			InitTextNotes ();
 		}
-
-		// 現在時刻
-		lastCreateEnemy = DateTime.UtcNow;
-
-		// ノーツ表示
-		InitTextNotes();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// リポップ予定時刻を過ぎていなければreturn.
-		TimeSpan timeSpan = DateTime.UtcNow - lastCreateEnemy;
-		if (timeSpan < TimeSpan.FromMilliseconds(REPOP_TIME)) {
-			return;
-		}
-		lastCreateEnemy = DateTime.UtcNow;
-		// 最大まで生成したら何もしない
-		if (orderList.Count - 1 < count) {
-			return;
+
+
+		if (Input.GetKeyDown (KeyCode.A)) {
+			startFlg = true;
+			Start ();
 		}
 
-		// 敵を生成
-		if (MAX_COUNT >= nowEnemyCount) {
-			CreateEnemy (ref orderList);
-		}	
+		if (startFlg) {
+			// リポップ予定時刻を過ぎていなければreturn.
+			TimeSpan timeSpan = DateTime.UtcNow - lastCreateEnemy;
+			if (timeSpan < TimeSpan.FromMilliseconds (REPOP_TIME)) {
+				return;
+			}
+			lastCreateEnemy = DateTime.UtcNow;
+			// 最大まで生成したら何もしない
+			if (orderList.Count - 1 < count) {
+				startFlg = false;
+				aBottonFlg = true;
+				return;
+			}
+
+			// 敵を生成
+			if (MAX_COUNT >= nowEnemyCount) {
+				CreateEnemy (ref orderList);
+			}	
+		}
 	}
 
 	public void CreateEnemy(ref List<int> orderList) {

@@ -10,11 +10,14 @@ public class PlayerManager : MonoBehaviour {
 	private float changePositionY = 0.7f;
 	private Animator animator;
 	private bool gurd = false;
+	public AudioClip gurdMoveSound;
+	private AudioSource audioSource;
 
 	public Sprite[] knightPic = new Sprite[2];
 
 	// Use this for initialization
 	void Start () {
+		audioSource = this.gameObject.GetComponent<AudioSource> ();
 		transform.position = new Vector2(basePositionX, basePositionY);
 		animator = GetComponent<Animator> ();
 
@@ -29,23 +32,25 @@ public class PlayerManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
 			// 上キーを押した時
 			transform.position = new Vector2(basePositionX, basePositionY);
-
+			audioSource.PlayOneShot(gurdMoveSound);
 		}
 		if (Input.GetKeyDown(KeyCode.RightArrow)) {
 			// 右キーを押した時
 			transform.position = new Vector2(basePositionX,basePositionY - changePositionY); 
-
+			audioSource.PlayOneShot(gurdMoveSound);
 		}
 		if (Input.GetKeyDown(KeyCode.DownArrow)) {
 			// 下キーを押した時
 			transform.position = new Vector2(basePositionX,basePositionY - (changePositionY * 2)); 
-
+			audioSource.PlayOneShot(gurdMoveSound);
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			// スペースキーを押した時
 			Destroy(this.gameObject);
 		}
+
+
     }
 
 	void OnTriggerEnter2D(Collider2D col){

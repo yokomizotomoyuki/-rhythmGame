@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Sceae/TitleMemue.unity
+    guid: 1ea50638c92b8452aaa2742bb25c5bb5
+  - enabled: 1
+    path: Assets/Sceae/gameStage1.unity
+    guid: 7a818dd94b082475c93c438724411af1
